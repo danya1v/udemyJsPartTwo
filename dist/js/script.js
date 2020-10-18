@@ -267,7 +267,50 @@ window.addEventListener("DOMContentLoaded", () => {
 
   new MenuCard("elite", "elite", '"Премиум"', "В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!", 20, ".menu .container").render();
   new MenuCard("post", "post", '"Постное"', "Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков. ", 15, ".menu .container", 'menu__item').render();
-  new MenuCard("vegy", "vegy", '"Фитнес"', 'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!', 10, ".menu .container", 'menu__item').render();
+  new MenuCard("vegy", "vegy", '"Фитнес"', 'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!', 10, ".menu .container", 'menu__item').render(); //Forms
+
+  const forms = document.querySelectorAll('form'),
+        message = {
+    loading: 'Загрузка',
+    success: 'Спасибо. Мы скоро с Вами свяжемся!',
+    failure: 'Что-то пошло не так...'
+  };
+  forms.forEach(item => {
+    postData(item);
+  });
+
+  function postData(form) {
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const statusMessage = document.createElement('div');
+      statusMessage.classList.add('status');
+      statusMessage.textContent = message.loading;
+      form.append(statusMessage);
+      const req = new XMLHttpRequest();
+      req.open('POST', 'server.php');
+      req.setRequestHeader('Content-type', 'application/json');
+      const formData = new FormData(form);
+      const object = {};
+      formData.forEach(function (value, key) {
+        object[key] = value;
+      });
+      const json = JSON.stringify(object);
+      req.send(json); // req.send(formData);
+
+      req.addEventListener('load', () => {
+        if (req.status === 200) {
+          console.log(req.response);
+          statusMessage.textContent = message.success;
+          form.reset();
+          setTimeout(() => {
+            statusMessage.remove();
+          }, 2000);
+        } else {
+          statusMessage.textContent = message.failure;
+        }
+      });
+    });
+  }
 });
 
 /***/ })
