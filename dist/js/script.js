@@ -1550,10 +1550,21 @@ window.addEventListener("DOMContentLoaded", () => {
     failure: 'Что-то пошло не так...'
   };
   forms.forEach(item => {
-    postData(item);
+    bindPostData(item);
   });
 
-  function postData(form) {
+  const postData = async (url, data) => {
+    const res = await fetch(url, {
+      method: "POST",
+      header: {
+        'Content-type': 'application/json'
+      },
+      body: data
+    });
+    return await res.json();
+  };
+
+  function bindPostData(form) {
     form.addEventListener('submit', e => {
       e.preventDefault();
       const statusMessage = document.createElement('img');
@@ -1568,13 +1579,7 @@ window.addEventListener("DOMContentLoaded", () => {
       formData.forEach(function (value, key) {
         object[key] = value;
       });
-      fetch('server.php', {
-        method: "POST",
-        header: {
-          'Content-type': 'application/json'
-        },
-        body: JSON.stringify(object)
-      }).then(data => data.text()).then(data => {
+      postData('server.php', JSON.stringify(object)).then(data => data.text()).then(data => {
         console.log(data);
         showThanksModal(message.success);
         statusMessage.remove();
@@ -1607,6 +1612,8 @@ window.addEventListener("DOMContentLoaded", () => {
       closeModal();
     }, 4000);
   }
+
+  fetch('http://localhost:3000/menu').then(data => data.json()).then(res => console.log(res));
 });
 
 /***/ })
