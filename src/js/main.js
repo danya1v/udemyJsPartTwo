@@ -186,12 +186,21 @@ window.addEventListener("DOMContentLoaded", () => {
       return await res.json();
    };
 
-   getResource('http://localhost:3000/menu')
+   // getResource('http://localhost:3000/menu')
+   // .then(data => {
+   //    data.forEach(({img, altimg, title, descr, price}) => {
+   //       new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
+   //    });
+   // });
+
+   axios.get('http://localhost:3000/menu')
    .then(data => {
-      data.forEach(({img, altimg, title, descr, price}) => {
-         new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
-      });
+      data.data.forEach(({img, altimg, title, descr, price}) => {
+               new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
+            });
    });
+
+
    // getResource('http://localhost:3000/menu')
    //    .then(data =>createCard(data));
 
@@ -295,4 +304,86 @@ window.addEventListener("DOMContentLoaded", () => {
    fetch('http://localhost:3000/menu')
       .then(data => data.json());
       // .then(res => console.log(res));
+
+
+
+// SLIDER
+
+   const sliderWrapper = document.querySelector('.offer__slider-wrapper'),
+         slider = document.querySelectorAll('.offer__slide'),
+         sliderNumber = document.querySelector('#current'),
+         sliderTotal = document.querySelector('#total'),
+         arrowLeft = document.querySelector('.offer__slider-prev'),
+         arrowRight = document.querySelector('.offer__slider-next');
+   let   i = 1;
+
+      
+      if (slider.length < 10){
+         sliderTotal.innerHTML = '0' + (slider.length);
+      } else {
+      sliderTotal.innerHTML =  slider.length;
+      }
+      function number () {
+         if (slider.length < 10){
+            sliderNumber.innerHTML = '0' + (i);
+         } else {
+         
+         if (i > 9){
+            sliderNumber.innerHTML =  i;
+
+         }else{
+            sliderNumber.innerHTML =  '0' +i;
+         }
+         }
+      }
+
+      function slideShow (item = 1) {
+            console.log(slider[item]);
+            slider[item].classList.add('show');
+            slider[item].classList.remove('hide');
+         };
+        
+       
+      
+      function slideHide () {
+         slider.forEach(item => {
+            item.classList.add('hide');
+            item.classList.remove('show');
+         });
+         
+       
+      }
+
+      
+      arrowRight.addEventListener('click', ()=> {
+         if (i > (slider.length-1)){
+            i = 1;
+            number();
+            slideHide ();
+            slideShow (i-1);
+         } else  {
+            i++;
+            number();
+            slideHide ();
+            slideShow (i-1);
+         }
+         
+         
+      });
+      arrowLeft.addEventListener('click', ()=> {
+         if (i < 2){
+            i = slider.length;
+            number();
+            slideHide ();
+            slideShow (i-1);
+         } else  {
+            i--;
+            number();
+            slideHide ();
+            slideShow (i-1);
+         }
+         
+         
+      });
+//          
 });
