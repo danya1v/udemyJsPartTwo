@@ -2327,73 +2327,49 @@ window.addEventListener("DOMContentLoaded", () => {
   fetch('http://localhost:3000/menu').then(data => data.json()); // .then(res => console.log(res));
   // SLIDER
 
-  const sliderWrapper = document.querySelector('.offer__slider-wrapper'),
-        slider = document.querySelectorAll('.offer__slide'),
-        sliderNumber = document.querySelector('#current'),
-        sliderTotal = document.querySelector('#total'),
-        arrowLeft = document.querySelector('.offer__slider-prev'),
-        arrowRight = document.querySelector('.offer__slider-next');
-  let i = 1;
+  const slides = document.querySelectorAll('.offer__slide'),
+        prev = document.querySelector('.offer__slider-prev'),
+        next = document.querySelector('.offer__slider-next'),
+        total = document.querySelector('#total'),
+        current = document.querySelector('#current');
+  let sliderIndex = 1;
+  showSlides(1);
 
-  if (slider.length < 10) {
-    sliderTotal.innerHTML = '0' + slider.length;
+  if (slides.length < 10) {
+    total.textContent = `0${slides.length}`;
   } else {
-    sliderTotal.innerHTML = slider.length;
+    total.textContent = slides.length;
   }
 
-  function number() {
-    if (slider.length < 10) {
-      sliderNumber.innerHTML = '0' + i;
+  function showSlides(n) {
+    if (n > slides.length) {
+      sliderIndex = 1;
+    }
+
+    if (n < 1) {
+      sliderIndex = slides.length;
+    }
+
+    slides.forEach(item => item.style.display = "none");
+    slides[sliderIndex - 1].style.display = "block";
+
+    if (slides.length < 10) {
+      current.textContent = `0${sliderIndex}`;
     } else {
-      if (i > 9) {
-        sliderNumber.innerHTML = i;
-      } else {
-        sliderNumber.innerHTML = '0' + i;
-      }
+      current.textContent = sliderIndex;
     }
   }
 
-  function slideShow(item = 1) {
-    console.log(slider[item]);
-    slider[item].classList.add('show');
-    slider[item].classList.remove('hide');
+  function plusSlides(n) {
+    showSlides(sliderIndex += n);
   }
 
-  ;
-
-  function slideHide() {
-    slider.forEach(item => {
-      item.classList.add('hide');
-      item.classList.remove('show');
-    });
-  }
-
-  arrowRight.addEventListener('click', () => {
-    if (i > slider.length - 1) {
-      i = 1;
-      number();
-      slideHide();
-      slideShow(i - 1);
-    } else {
-      i++;
-      number();
-      slideHide();
-      slideShow(i - 1);
-    }
+  prev.addEventListener('click', () => {
+    plusSlides(-1);
   });
-  arrowLeft.addEventListener('click', () => {
-    if (i < 2) {
-      i = slider.length;
-      number();
-      slideHide();
-      slideShow(i - 1);
-    } else {
-      i--;
-      number();
-      slideHide();
-      slideShow(i - 1);
-    }
-  }); //          
+  next.addEventListener('click', () => {
+    plusSlides(1);
+  });
 });
 
 /***/ })
