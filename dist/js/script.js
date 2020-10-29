@@ -2707,7 +2707,7 @@ window.addEventListener("DOMContentLoaded", () => {
     btn.addEventListener("click", openModal);
   });
   modal.addEventListener("click", e => {
-    if (e.target === modal || e.target.getAttribute('data-close') == "") {
+    if (e.target === modal || e.target.getAttribute("data-close") == "") {
       closeModal();
     }
   });
@@ -2748,7 +2748,7 @@ window.addEventListener("DOMContentLoaded", () => {
       const element = document.createElement("div");
 
       if (this.classes.length === 0) {
-        this.classes = 'menu__item';
+        this.classes = "menu__item";
         element.classList.add(this.classes);
       } else {
         this.classes.forEach(className => element.classList.add(className));
@@ -2785,7 +2785,7 @@ window.addEventListener("DOMContentLoaded", () => {
   // });
 
 
-  axios.get('http://localhost:3000/menu').then(data => {
+  axios.get("http://localhost:3000/menu").then(data => {
     data.data.forEach(({
       img,
       altimg,
@@ -2793,7 +2793,7 @@ window.addEventListener("DOMContentLoaded", () => {
       descr,
       price
     }) => {
-      new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
+      new MenuCard(img, altimg, title, descr, price, ".menu .container").render();
     });
   }); // getResource('http://localhost:3000/menu')
   //    .then(data =>createCard(data));
@@ -2816,11 +2816,11 @@ window.addEventListener("DOMContentLoaded", () => {
   // }
   //Forms
 
-  const forms = document.querySelectorAll('form'),
+  const forms = document.querySelectorAll("form"),
         message = {
-    loading: 'img/form/spinner.svg',
-    success: 'Спасибо. Мы скоро с Вами свяжемся!',
-    failure: 'Что-то пошло не так...'
+    loading: "img/form/spinner.svg",
+    success: "Спасибо. Мы скоро с Вами свяжемся!",
+    failure: "Что-то пошло не так..."
   };
   forms.forEach(item => {
     bindPostData(item);
@@ -2830,7 +2830,7 @@ window.addEventListener("DOMContentLoaded", () => {
     const res = await fetch(url, {
       method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
       },
       body: data
     });
@@ -2838,18 +2838,18 @@ window.addEventListener("DOMContentLoaded", () => {
   };
 
   function bindPostData(form) {
-    form.addEventListener('submit', e => {
+    form.addEventListener("submit", e => {
       e.preventDefault();
-      const statusMessage = document.createElement('img');
+      const statusMessage = document.createElement("img");
       statusMessage.src = message.loading;
       statusMessage.style.cssText = `
          display: block;
          margin: 0 auto;
       `;
-      form.insertAdjacentElement('afterend', statusMessage);
+      form.insertAdjacentElement("afterend", statusMessage);
       const formData = new FormData(form);
       const json = JSON.stringify(Object.fromEntries(formData.entries()));
-      postData('http://localhost:3000/requests', json).then(data => {
+      postData("http://localhost:3000/requests", json).then(data => {
         console.log(data);
         showThanksModal(message.success);
         statusMessage.remove();
@@ -2862,11 +2862,11 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   function showThanksModal(message) {
-    const prevModalDialog = document.querySelector('.modal__dialog');
-    prevModalDialog.classList.add('hide');
+    const prevModalDialog = document.querySelector(".modal__dialog");
+    prevModalDialog.classList.add("hide");
     openModal();
-    const thanksModal = document.createElement('div');
-    thanksModal.classList.add('modal__dialog');
+    const thanksModal = document.createElement("div");
+    thanksModal.classList.add("modal__dialog");
     thanksModal.innerHTML = `
          <div class="modal__content">
          <div class="modal__close" data-close>×</div>
@@ -2874,39 +2874,39 @@ window.addEventListener("DOMContentLoaded", () => {
          </div>
       
       `;
-    document.querySelector('.modal').append(thanksModal);
+    document.querySelector(".modal").append(thanksModal);
     setTimeout(() => {
       thanksModal.remove();
-      prevModalDialog.classList.add('show');
-      prevModalDialog.classList.remove('hide');
+      prevModalDialog.classList.add("show");
+      prevModalDialog.classList.remove("hide");
       closeModal();
     }, 4000);
   }
 
-  fetch('http://localhost:3000/menu').then(data => data.json()); // .then(res => console.log(res));
+  fetch("http://localhost:3000/menu").then(data => data.json()); // .then(res => console.log(res));
   // SLIDER
 
-  const slides = document.querySelectorAll('.offer__slide'),
-        slider = document.querySelector('.offer__slider'),
-        prev = document.querySelector('.offer__slider-prev'),
-        next = document.querySelector('.offer__slider-next'),
-        total = document.querySelector('#total'),
-        current = document.querySelector('#current'),
-        slidesWrapper = document.querySelector('.offer__slider-wrapper'),
-        slidesField = document.querySelector('.offer__slider-inner'),
+  const slides = document.querySelectorAll(".offer__slide"),
+        slider = document.querySelector(".offer__slider"),
+        prev = document.querySelector(".offer__slider-prev"),
+        next = document.querySelector(".offer__slider-next"),
+        total = document.querySelector("#total"),
+        current = document.querySelector("#current"),
+        slidesWrapper = document.querySelector(".offer__slider-wrapper"),
+        slidesField = document.querySelector(".offer__slider-inner"),
         width = window.getComputedStyle(slidesWrapper).width;
   let sliderIndex = 1;
   let offset = 0;
-  slidesField.style.width = 100 * slides.length + '%';
-  slidesField.style.display = 'flex';
-  slidesField.style.transition = '0.5s all';
-  slidesWrapper.style.overflow = 'hidden';
+  slidesField.style.width = 100 * slides.length + "%";
+  slidesField.style.display = "flex";
+  slidesField.style.transition = "0.5s all";
+  slidesWrapper.style.overflow = "hidden";
   slides.forEach(slide => {
     slide.style.width = width;
   });
 
   function sliderCheck() {
-    dots.forEach(dot => dot.style.opacity = '0.5');
+    dots.forEach(dot => dot.style.opacity = "0.5");
     dots[sliderIndex - 1].style.opacity = 1;
   }
 
@@ -2922,10 +2922,10 @@ window.addEventListener("DOMContentLoaded", () => {
     return +str.replace(/\D/g, "");
   }
 
-  slider.style.position = 'relative';
-  const indicators = document.createElement('ol'),
+  slider.style.position = "relative";
+  const indicators = document.createElement("ol"),
         dots = [];
-  indicators.classList.add('carousel-indicators');
+  indicators.classList.add("carousel-indicators");
   indicators.style.cssText = `
     position: absolute;
     right: 0;
@@ -2941,8 +2941,8 @@ window.addEventListener("DOMContentLoaded", () => {
   slider.append(indicators);
 
   for (let i = 0; i < slides.length; i++) {
-    const dot = document.createElement('li');
-    dot.setAttribute('data-slide-to', i + 1);
+    const dot = document.createElement("li");
+    dot.setAttribute("data-slide-to", i + 1);
     dot.style.cssText = `
       box-sizing: content-box;
     flex: 0 1 auto;
@@ -2975,7 +2975,7 @@ window.addEventListener("DOMContentLoaded", () => {
     current.textContent = `0${sliderIndex}`;
   }
 
-  next.addEventListener('click', () => {
+  next.addEventListener("click", () => {
     if (offset == delNotDigits(width) * (slides.length - 1)) {
       offset = 0;
     } else {
@@ -2993,7 +2993,7 @@ window.addEventListener("DOMContentLoaded", () => {
     sliderZero();
     sliderCheck();
   });
-  prev.addEventListener('click', () => {
+  prev.addEventListener("click", () => {
     if (offset == 0) {
       offset = delNotDigits(width) * (slides.length - 1);
     } else {
@@ -3012,8 +3012,8 @@ window.addEventListener("DOMContentLoaded", () => {
     sliderCheck();
   });
   dots.forEach(dot => {
-    dot.addEventListener('click', e => {
-      const slideTo = e.target.getAttribute('data-slide-to');
+    dot.addEventListener("click", e => {
+      const slideTo = e.target.getAttribute("data-slide-to");
       sliderIndex = slideTo;
       offset = +width.slice(0, width.length - 2) * (slideTo - 1);
       slidesField.style.transform = `translateX(-${offset}px)`;
@@ -3050,6 +3050,112 @@ window.addEventListener("DOMContentLoaded", () => {
   // next.addEventListener('click', () => {
   //    plusSlides(1);
   // });
+  //calculator
+
+  const result = document.querySelector(".calculating__result span");
+  let sex, height, weight, age, ratio;
+
+  if (localStorage.getItem('sex')) {
+    sex = localStorage.getItem('sex');
+  } else {
+    sex = 'female';
+    localStorage.setItem('sex', 'female');
+  }
+
+  if (localStorage.getItem('ratio')) {
+    ratio = localStorage.getItem('ratio');
+  } else {
+    ratio = 1.375;
+    localStorage.setItem('ratio', 1.375);
+  }
+
+  function initLocalSettings(selector, activeClass) {
+    const elements = document.querySelectorAll(selector);
+    elements.forEach(elem => {
+      elem.classList.remove(activeClass);
+
+      if (elem.getAttribute('id') === localStorage.getItem('sex')) {
+        elem.classList.add(activeClass);
+      }
+
+      if (elem.getAttribute('data-ratio') === localStorage.getItem('ratio')) {
+        elem.classList.add(activeClass);
+      }
+    });
+  }
+
+  initLocalSettings("#gender div", "calculating__choose-item_active");
+  initLocalSettings(".calculating__choose_big div", "calculating__choose-item_active");
+
+  function calcTotal() {
+    if (!sex || !height || !age || !ratio || !weight) {
+      result.textContent = "....";
+      return;
+    }
+
+    if (sex === "female") {
+      result.textContent = Math.round((47.6 + 9.2 * weight + 3.1 * height - 4.3 * age) * ratio);
+    } else {
+      result.textContent = Math.round((88.36 + 13.4 * weight + 4.8 * height - 5.7 * age) * ratio);
+    }
+  }
+
+  calcTotal();
+
+  function getStaticInformation(selector, activeClass) {
+    const elements = document.querySelectorAll(selector);
+    elements.forEach(elem => {
+      elem.addEventListener("click", e => {
+        if (e.target.getAttribute("data-ratio")) {
+          ratio = +e.target.getAttribute('data-ratio');
+          localStorage.setItem('ratio', +e.target.getAttribute('data-ratio'));
+        } else {
+          sex = e.target.getAttribute("id");
+          localStorage.setItem('sex', e.target.getAttribute("id"));
+        }
+
+        elements.forEach(elem => {
+          elem.classList.remove(activeClass);
+        });
+        e.target.classList.add(activeClass);
+        calcTotal();
+      });
+    });
+  }
+
+  getStaticInformation("#gender div", "calculating__choose-item_active");
+  getStaticInformation(".calculating__choose_big div", "calculating__choose-item_active");
+
+  function getDynamicInformation(selector) {
+    const input = document.querySelector(selector);
+    input.addEventListener("input", () => {
+      if (input.value.match(/\D/g) || input.value.match(/[^\d.]/g)) {
+        input.style.border = '1px solid red';
+      } else {
+        input.style.border = 'none';
+      }
+
+      switch (input.getAttribute("id")) {
+        case "height":
+          height = +input.value;
+          break;
+
+        case "weight":
+          weight = +input.value;
+          break;
+
+        case "age":
+          age = +input.value;
+          break;
+      }
+
+      calcTotal();
+    });
+  }
+
+  getDynamicInformation("#height");
+  getDynamicInformation("#weight");
+  getDynamicInformation("#age");
 });
 
 /***/ })
